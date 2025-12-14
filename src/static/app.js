@@ -416,7 +416,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      // Handle difficulty filter
+      // Handle difficulty filter - server-side filtering for specific levels
+      // "All Levels" (no-filter) is handled client-side to show only activities without difficulty_level
       if (currentDifficulty && currentDifficulty !== "no-filter") {
         queryParams.push(`difficulty_level=${encodeURIComponent(currentDifficulty)}`);
       }
@@ -443,7 +444,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Clear the activities list
     activitiesList.innerHTML = "";
 
-    // Apply client-side filtering - this handles category filter and search, plus weekend filter
+    // Apply client-side filtering - this handles category filter, search, weekend filter,
+    // and "All Levels" difficulty filter (which shows only activities without difficulty_level)
     let filteredActivities = {};
 
     Object.entries(allActivities).forEach(([name, details]) => {
@@ -454,7 +456,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Apply "All Levels" filter - show only activities without difficulty_level
+      // Apply "All Levels" difficulty filter - show only activities without difficulty_level field
+      // (activities with difficulty_level are for specific skill levels only)
       if (currentDifficulty === "no-filter" && details.difficulty_level) {
         return;
       }
