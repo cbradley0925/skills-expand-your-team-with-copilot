@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let searchQuery = "";
   let currentDay = "";
   let currentTimeRange = "";
-  let currentDifficulty = "";
+  let currentDifficulty = "no-filter";
 
   // Authentication state
   let currentUser = null;
@@ -417,7 +417,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Handle difficulty filter
-      if (currentDifficulty) {
+      if (currentDifficulty && currentDifficulty !== "no-filter") {
         queryParams.push(`difficulty_level=${encodeURIComponent(currentDifficulty)}`);
       }
 
@@ -451,6 +451,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Apply category filter
       if (currentFilter !== "all" && activityType !== currentFilter) {
+        return;
+      }
+
+      // Apply "All Levels" filter - show only activities without difficulty_level
+      if (currentDifficulty === "no-filter" && details.difficulty_level) {
         return;
       }
 
